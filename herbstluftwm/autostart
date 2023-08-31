@@ -1,0 +1,27 @@
+#!/run/current-system/sw/bin/bash
+herbstclient keyunbind Mod1-Return
+
+herbstclient keybind Mod1-Return spawn alacritty
+herbstclient keybind Mod1-c close
+
+herbstclient set frame_border_width 1
+herbstclient set window_border_width 1
+
+herbstclient keybind Mod1+o shift_to_monitor 0
+herbstclient keybind Mod1+p shift_to_monitor 1
+
+herbstclient rule class=Zathura monitor=1
+
+
+for i in {1..9}; do
+    herbstclient add "$i"
+    herbstclient keybind "Mod1+$i" use "$i"
+    herbstclient keybind "Mod1+Shift+$i" move "$i"
+done
+
+herbstclient detect_monitors
+
+herbstclient keybind Mod1+f fullscreen toggle
+herbstclient keybind Mod1+d spawn rofi -show drun
+
+polybar jasonbar &

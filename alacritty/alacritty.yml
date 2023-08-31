@@ -1,0 +1,42 @@
+window:
+  opacity: 0.75
+
+font:
+  normal:
+    family: 'Agave'
+    style: Regular
+  bold:
+    family: 'Agave'
+    style: Bold
+
+key_bindings:
+  - { key: Equals,  mods: Control, action: IncreaseFontSize }
+  - { key: Minus, mods: Control, action: DecreaseFontSize }
+
+colors:
+  # Default colors
+  primary:
+    background: '0x282A2E'
+    foreground: '0xC5C8C6'
+
+  # Normal colors
+  normal:
+    black:   '0x000000'
+    red:     '0xCC6666' # Inuyasha's robe
+    green:   '0x6A8D73' # Feudal countryside
+    yellow:  '0xF0C674'
+    blue:    '0x507B9D'
+    magenta: '0xB294BB'
+    cyan:    '0x8ABEB7'
+    white:   '0xFFFFFF' # Inuyasha's hair
+
+  # Bright colors
+  bright:
+    black:   '0x373B41'
+    red:     '0xCC6666'
+    green:   '0x6A8D73'
+    yellow:  '0xF0C674'
+    blue:    '0x507B9D'
+    magenta: '0xB294BB'
+    cyan:    '0x8ABEB7'
+    white:   '0xFFFFFF'
