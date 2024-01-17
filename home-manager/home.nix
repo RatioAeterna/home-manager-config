@@ -8,26 +8,34 @@
 
   # Packages that should be installed to the user profile.
   home.packages = [                               
-    pkgs.htop
-    pkgs.fortune
+    pkgs.alacritty
+    pkgs.alsa-lib
     pkgs.btop
-    pkgs.redshift
+    pkgs.cargo
+    pkgs.coq
+    pkgs.dolphin-emu
     pkgs.feh
     pkgs.firefox
-    pkgs.picom
-    pkgs.tree
-    pkgs.rofi
-    pkgs.alacritty
-    pkgs.rustc
-    pkgs.cargo
+    pkgs.fortune
     pkgs.gcc
-    pkgs.python3
-    pkgs.polybar
     pkgs.gnumake
+    pkgs.htop
+    pkgs.picom
+    pkgs.polybar
+    pkgs.protonvpn-gui
+    pkgs.python3
+    pkgs.redshift
     pkgs.ripgrep
-    pkgs.zathura
-    pkgs.unzip
+    pkgs.rofi
+    pkgs.rustc
     pkgs.texlive.combined.scheme-full
+    pkgs.tree
+    pkgs.unzip
+    pkgs.xorg.libX11
+    pkgs.xorg.libXcursor
+    pkgs.xorg.libXi
+    pkgs.xorg.libXrandr
+    pkgs.zathura
   ];
 
   # This value determines the Home Manager release that your
@@ -92,19 +100,20 @@
         colorscheme inuyasha
     ";
     plugins = [
-	pkgs.vimPlugins.vim-airline
+	pkgs.vimPlugins.Coqtail
 	pkgs.vimPlugins.catppuccin-nvim
-        pkgs.vimPlugins.nerdtree
-        pkgs.vimPlugins.toggleterm-nvim
-	pkgs.vimPlugins.nvim-lspconfig
-	pkgs.vimPlugins.cmp-path
 	pkgs.vimPlugins.cmp-cmdline
-        pkgs.vimPlugins.nvim-cmp
+	pkgs.vimPlugins.cmp-path
+	pkgs.vimPlugins.nvim-lspconfig
+	pkgs.vimPlugins.vim-airline
         pkgs.vimPlugins.lightspeed-nvim
-        pkgs.vimPlugins.tokyonight-nvim
+        pkgs.vimPlugins.nerdtree
+        pkgs.vimPlugins.nvim-cmp
         pkgs.vimPlugins.nvim-tree-lua
         pkgs.vimPlugins.plenary-nvim
         pkgs.vimPlugins.telescope-nvim
+        pkgs.vimPlugins.toggleterm-nvim
+        pkgs.vimPlugins.tokyonight-nvim
         {
           plugin = pkgs.vimPlugins.vim-startify;
           config = "let g:startify_change_to_vcs_root = 0";
