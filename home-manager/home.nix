@@ -31,11 +31,18 @@
     pkgs.texlive.combined.scheme-full
     pkgs.tree
     pkgs.unzip
+    pkgs.zathura
+    pkgs.pkg-config
+    pkgs.alsa-lib
+    pkgs.libudev-zero
+    pkgs.llvmPackages_rocm.clang-tools-extra
+    pkgs.protonvpn-gui
+    pkgs.alsaLib
     pkgs.xorg.libX11
     pkgs.xorg.libXcursor
-    pkgs.xorg.libXi
     pkgs.xorg.libXrandr
-    pkgs.zathura
+    pkgs.xorg.libXi
+    pkgs.xclip
   ];
 
   # This value determines the Home Manager release that your
@@ -55,7 +62,7 @@
     enable = true;
     shellAliases = {
       ll = "ls -l";
-      update = "sudo nixos-rebuild switch";
+      update = "sudo nixos-rebuild switch --flake /etc/nixos/";
       hmupdate = "home-manager switch --flake /home/jason/.config/home-manager/";
       hmedit = "nvim /home/jason/.config/home-manager/home.nix";
     };
@@ -87,32 +94,112 @@
   home.file."${config.home.homeDirectory}/.local/share/fonts/Agave-Regular-slashed.ttf".source = ../fonts/Agave-Regular-slashed.ttf;
   home.file."${config.home.homeDirectory}/.local/share/fonts/Agave-Bold-slashed.ttf".source = ../fonts/Agave-Bold-slashed.ttf;
 
+
+  home.file."${config.home.homeDirectory}/.config/nvim/lua/cmp_config.lua".text = ''
+      local cmp = require'cmp'
+
+      cmp.setup({
+	snippet = {
+	  -- REQUIRED - you must specify a snippet engine
+	  expand = function(args)
+	    require('luasnip').lsp_expand(args.body) -- luasnip users
+	  end,
+	},
+	window = {
+	  -- completion = cmp.config.window.bordered(),
+	  -- documentation = cmp.config.window.bordered(),
+	},
+	mapping = cmp.mapping.preset.insert({
+	  ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+	  ['<C-f>'] = cmp.mapping.scroll_docs(4),
+	  ['<C-Space>'] = cmp.mapping.complete(),
+	  ['<C-e>'] = cmp.mapping.abort(),
+	  ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+	  ['<Tab>'] = cmp.mapping.select_next_item(),
+	  ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+	}),
+	sources = cmp.config.sources({
+	  { name = 'nvim_lsp' },
+	  { name = 'vsnip' }, -- For vsnip users.
+	  -- { name = 'luasnip' }, -- For luasnip users.
+	  -- { name = 'ultisnips' }, -- For ultisnips users.
+	  -- { name = 'snippy' }, -- For snippy users.
+	}, {
+	  { name = 'buffer' },
+	})
+      })
+
+      -- Set configuration for specific filetype.
+      cmp.setup.filetype('gitcommit', {
+	sources = cmp.config.sources({
+	  { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+	}, {
+	  { name = 'buffer' },
+	})
+      })
+
+      -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+      cmp.setup.cmdline({ '/', '?' }, {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = {
+	  { name = 'buffer' }
+	}
+      })
+
+      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+      cmp.setup.cmdline(':', {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = cmp.config.sources({
+	  { name = 'path' }
+	}, {
+	  { name = 'cmdline' }
+	})
+      })
+
+      -- Set up lspconfig.
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+      require('lspconfig')['clangd'].setup {
+	capabilities = capabilities
+      }
+
+      vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
+  '';
+
+
   programs.neovim = {
     enable = true;
-    #extraConfig = builtins.readFile "/home/jason/nvim-configs/dotfiles/nvim/init.lua";
-    extraConfig = "
+    extraConfig = ''
+	set clipboard+=unnamedplus
         set nu
 	set shiftwidth=4
         set runtimepath+=~/.config/nvim/colors
+        set runtimepath+=~/.config/nvim/lua
 	au VimEnter * lua require('toggleterm').setup{}
 	command! T ToggleTerm
         command! F NERDTreeFocus
         colorscheme inuyasha
-    ";
+	luafile ~/.config/nvim/lua/cmp_config.lua
+
+	inoremap <expr> <TAB> pumvisible() ? "<C-y>" : "<TAB>"
+    '';
     plugins = [
 	pkgs.vimPlugins.Coqtail
 	pkgs.vimPlugins.catppuccin-nvim
-	pkgs.vimPlugins.cmp-cmdline
-	pkgs.vimPlugins.cmp-path
-	pkgs.vimPlugins.nvim-lspconfig
 	pkgs.vimPlugins.vim-airline
-        pkgs.vimPlugins.lightspeed-nvim
         pkgs.vimPlugins.nerdtree
+        pkgs.vimPlugins.toggleterm-nvim
+	pkgs.vimPlugins.nvim-lspconfig
+	pkgs.vimPlugins.cmp-nvim-lsp
         pkgs.vimPlugins.nvim-cmp
+	pkgs.vimPlugins.cmp-path
+	pkgs.vimPlugins.cmp-cmdline
+	pkgs.vimPlugins.cmp_luasnip
+	pkgs.vimPlugins.luasnip
+        pkgs.vimPlugins.lightspeed-nvim
         pkgs.vimPlugins.nvim-tree-lua
         pkgs.vimPlugins.plenary-nvim
         pkgs.vimPlugins.telescope-nvim
-        pkgs.vimPlugins.toggleterm-nvim
         pkgs.vimPlugins.tokyonight-nvim
         {
           plugin = pkgs.vimPlugins.vim-startify;

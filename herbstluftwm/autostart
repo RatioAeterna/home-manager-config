@@ -24,4 +24,7 @@ herbstclient detect_monitors
 herbstclient keybind Mod1+f fullscreen toggle
 herbstclient keybind Mod1+d spawn rofi -show drun
 
+herbstclient keybind Mod1+t pseudotile toggle
+
+
 polybar jasonbar &
