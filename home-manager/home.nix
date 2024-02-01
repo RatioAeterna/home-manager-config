@@ -13,11 +13,13 @@
     pkgs.btop
     pkgs.cargo
     pkgs.coq
+    pkgs.cmake
     pkgs.dolphin-emu
     pkgs.feh
     pkgs.firefox
     pkgs.fortune
     pkgs.gcc
+    pkgs.gdb
     pkgs.gnumake
     pkgs.htop
     pkgs.picom
@@ -28,8 +30,8 @@
     pkgs.ripgrep
     pkgs.rofi
     pkgs.rustc
+    #pkgs.rustup
     pkgs.texlive.combined.scheme-full
-    pkgs.tree
     pkgs.unzip
     pkgs.zathura
     pkgs.pkg-config
@@ -43,6 +45,8 @@
     pkgs.xorg.libXrandr
     pkgs.xorg.libXi
     pkgs.xclip
+    pkgs.rust-analyzer
+    pkgs.fltk
   ];
 
   # This value determines the Home Manager release that your
@@ -94,6 +98,26 @@
   home.file."${config.home.homeDirectory}/.local/share/fonts/Agave-Regular-slashed.ttf".source = ../fonts/Agave-Regular-slashed.ttf;
   home.file."${config.home.homeDirectory}/.local/share/fonts/Agave-Bold-slashed.ttf".source = ../fonts/Agave-Bold-slashed.ttf;
 
+
+  home.file."${config.home.homeDirectory}/.config/nvim/lua/nvim-dap.lua".text = ''
+    local dap = require("dap")
+    dap.adapters.rust_gdb = {
+      type = "executable",
+      command = "rust-gdb",
+      args = { "-i", "dap" }
+    }
+    dap.configurations.rust = {
+      {
+	name = "Debug with rust_gdb",
+	type = "rust_gdb",
+	request = "launch",
+	program = function()
+	  return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+	end,
+	cwd = vim.fn.getcwd(),
+      },
+    }
+  '';
 
   home.file."${config.home.homeDirectory}/.config/nvim/lua/cmp_config.lua".text = ''
       local cmp = require'cmp'
@@ -164,6 +188,40 @@
       }
 
       vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
+
+
+	local nvim_lsp = require('lspconfig')
+
+	-- Rust settings (using rust-analyzer)
+	nvim_lsp.rust_analyzer.setup({
+	    capabilities = capabilities,
+	    on_attach = function(client, bufnr)
+		local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+		local opts = { noremap=true, silent=true }
+		
+		-- Mappings.
+		buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+		buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+		buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+		buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+		-- Add more mappings as needed
+	    end,
+	    settings = {
+		["rust-analyzer"] = {
+		    assist = {
+			importGranularity = "module",
+			importPrefix = "by_self",
+		    },
+		    cargo = {
+			loadOutDirsFromCheck = true
+		    },
+		    procMacro = {
+			enable = true
+		    },
+		}
+	    }
+	})
+
   '';
 
 
@@ -180,9 +238,24 @@
         command! F NERDTreeFocus
         colorscheme inuyasha
 	luafile ~/.config/nvim/lua/cmp_config.lua
+	luafile ~/.config/nvim/lua/nvim-dap.lua
 
 	inoremap <expr> <TAB> pumvisible() ? "<C-y>" : "<TAB>"
+
+	" Function to set Coq mappings
+	function! SetCoqMappings()
+	    " Set buffer-local mappings for Coq
+	    nnoremap <buffer> <Tab> :CoqNext<CR>
+	    nnoremap <buffer> <S-Tab> :CoqUndo<CR>
+	endfunction
+
+	" Autocommand that sets the Coq mappings when a Coq buffer is detected
+	augroup CoqMappings
+	    autocmd!
+	    autocmd FileType coq call SetCoqMappings()
+	augroup END 
     '';
+
     plugins = [
 	pkgs.vimPlugins.Coqtail
 	pkgs.vimPlugins.catppuccin-nvim
@@ -201,6 +274,8 @@
         pkgs.vimPlugins.plenary-nvim
         pkgs.vimPlugins.telescope-nvim
         pkgs.vimPlugins.tokyonight-nvim
+	pkgs.vimPlugins.vimspector
+	pkgs.vimPlugins.nvim-dap
         {
           plugin = pkgs.vimPlugins.vim-startify;
           config = "let g:startify_change_to_vcs_root = 0";

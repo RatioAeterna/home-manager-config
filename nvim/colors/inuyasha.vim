@@ -27,3 +27,5 @@ hi MatchParen ctermfg=0 ctermbg=3     " Black on yellow
 
 " Search highlights
 hi Search ctermfg=0 ctermbg=3         " Black on yellow
+
+hi Pmenu ctermbg=135
