@@ -17,6 +17,7 @@
     pkgs.dolphin-emu
     pkgs.feh
     pkgs.firefox
+    pkgs.chromium
     pkgs.fortune
     pkgs.gcc
     pkgs.gdb
@@ -37,7 +38,7 @@
     pkgs.pkg-config
     pkgs.alsa-lib
     pkgs.libudev-zero
-    pkgs.llvmPackages_rocm.clang-tools-extra
+    #pkgs.llvmPackages_rocm.clang-tools-extra
     pkgs.protonvpn-gui
     pkgs.alsaLib
     pkgs.xorg.libX11
@@ -47,6 +48,14 @@
     pkgs.xclip
     pkgs.rust-analyzer
     pkgs.fltk
+    pkgs.racket
+    pkgs.z3
+    pkgs.nodejs_20
+    pkgs.zip
+    pkgs.obs-studio
+    pkgs.vlc
+    pkgs.sage
+    #linuxKernel.packages.linux_6_1.perf
   ];
 
   # This value determines the Home Manager release that your
@@ -67,8 +76,11 @@
     shellAliases = {
       ll = "ls -l";
       update = "sudo nixos-rebuild switch --flake /etc/nixos/";
-      hmupdate = "home-manager switch --flake /home/jason/.config/home-manager/";
+      hmupdate = "home-manager switch --flake /home/jason/.config/home-manager/#jason";
       hmedit = "nvim /home/jason/.config/home-manager/home.nix";
+      tsc = "/home/jason/.npm-global/bin/tsc";
+      http-server = "/home/jason/.npm-global/bin/http-server";
+      
     };
     # histSize = 10000;
     # histFile = "${config.xdg.dataHome}/zsh/history";
@@ -106,6 +118,11 @@
       command = "rust-gdb",
       args = { "-i", "dap" }
     }
+    dap.adapters.gdb = {
+      type = "executable",
+      command = "gdb",
+      args = { "-i", "dap" }
+    }
     dap.configurations.rust = {
       {
 	name = "Debug with rust_gdb",
@@ -115,6 +132,18 @@
 	  return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
 	end,
 	cwd = vim.fn.getcwd(),
+      },
+    }
+    dap.configurations.c = {
+      {
+	name = "Launch",
+	type = "gdb",
+	request = "launch",
+	program = function()
+	  return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+	end,
+	cwd = vim.fn.getcwd(),
+	stopAtBeginningOfMainSubprogram = false,
       },
     }
   '';
