@@ -1,0 +1,44 @@
+[colors.bright]
+black = "0x373B41"
+blue = "0x507B9D"
+cyan = "0x8ABEB7"
+green = "0x6A8D73"
+magenta = "0xB294BB"
+red = "0xCC6666"
+white = "0xFFFFFF"
+yellow = "0xF0C674"
+
+[colors.normal]
+black = "0x000000"
+blue = "0x507B9D"
+cyan = "0x8ABEB7"
+green = "0x6A8D73"
+magenta = "0xB294BB"
+red = "0xCC6666"
+white = "0xFFFFFF"
+yellow = "0xF0C674"
+
+[colors.primary]
+background = "0x282A2E"
+foreground = "0xC5C8C6"
+
+[font.bold]
+family = "Agave"
+style = "Bold"
+
+[font.normal]
+family = "Agave"
+style = "Regular"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+
+[window]
+opacity = 0.75

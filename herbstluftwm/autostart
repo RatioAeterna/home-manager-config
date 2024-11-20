@@ -2,10 +2,18 @@
 herbstclient keyunbind Mod1-Return
 
 herbstclient keybind Mod1-Return spawn alacritty
+#herbstclient keybind Mod1-Return \
+#    chain , split right 0.5 , spawn alacritty
+#herbstclient keybind Mod1-Return \
+#    chain , split right 0.5 , focus right , spawn alacritty
+
 herbstclient keybind Mod1-c close
 
 herbstclient set frame_border_width 1
 herbstclient set window_border_width 1
+
+# Ensure default window splitting is horizontal (new windows appear to the right)
+herbstclient set default_frame_layout vertical
 
 herbstclient keybind Mod1+o shift_to_monitor 0
 herbstclient keybind Mod1+p shift_to_monitor 1

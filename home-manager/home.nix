@@ -47,7 +47,7 @@
     pkgs.xorg.libXi
     pkgs.xclip
     pkgs.rust-analyzer
-    pkgs.fltk
+    #pkgs.fltk
     pkgs.racket
     pkgs.z3
     pkgs.nodejs_20
@@ -55,7 +55,16 @@
     pkgs.obs-studio
     pkgs.vlc
     pkgs.sage
+    #pkgs.mesa
+    #pkgs.libGL
+    #pkgs.libGLU
+    pkgs.glxinfo
+    pkgs.glib
+    pkgs.gtk3
+    pkgs.wireguard-tools
+    #pkgs.ollama-cuda
     #linuxKernel.packages.linux_6_1.perf
+    pkgs.filezilla
   ];
 
   # This value determines the Home Manager release that your
@@ -66,7 +75,7 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "23.05";
+  home.stateVersion = "24.11";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -88,7 +97,12 @@
         enable = true;
         theme = "norm";
     };
+    #initExtra = "source ~/SANITY_SCRIPT.sh";
   };
+
+  #home.sessionVariables = {
+  #  LD_LIBRARY_PATH = "/lib/ollama/:/nix/store/ind9jbyxp1q4d8r3h7nfn85caqwrqm1s-graphics-drivers/lib:/nix/store/r8qsxm85rlxzdac7988psm7gimg4dl3q-glibc-2.39-52/lib:/nix/store/qksd2mz9f5iasbsh398akdb58fx9kx6d-gcc-13.2.0-lib/lib:/nix/store/r8qsxm85rlxzdac7988psm7gimg4dl3q-glibc-2.39-52/lib:/nix/store/qksd2mz9f5iasbsh398akdb58fx9kx6d-gcc-13.2.0-lib/lib:/nix/store/x1xy3qj2cllwrg33jyj7j28sf841cr1z-pipewire-1.2.3-jack/lib";
+  #};
 
 
   # Ensure we load special fonts on login
@@ -265,9 +279,16 @@
 	au VimEnter * lua require('toggleterm').setup{}
 	command! T ToggleTerm
         command! F NERDTreeFocus
+	highlight Normal guibg=none
+	highlight NonText guibg=none
+	highlight Normal ctermbg=none
+	highlight NonText ctermbg=none
         colorscheme inuyasha
 	luafile ~/.config/nvim/lua/cmp_config.lua
 	luafile ~/.config/nvim/lua/nvim-dap.lua
+
+	let mapleader = " "
+	nnoremap <leader>fg :Telescope live_grep<CR>
 
 	inoremap <expr> <TAB> pumvisible() ? "<C-y>" : "<TAB>"
 
@@ -313,6 +334,45 @@
           plugin = pkgs.vimPlugins.vimtex;
           config = "let g:vimtex_view_method = 'zathura'";
         }
+	#{
+	#plugin = codecompanion-nvim;
+	#type = "lua";
+	#config = ''
+	#	require("codecompanion").setup({
+	#	  adapters = {
+	#	    ollama = function()
+	#	      return require("codecompanion.adapters").use("ollama", {
+	#		schema = {
+	#		  model = {
+	#		    default = "llama3",
+	#		  },
+	#		},
+	#	      })
+	#	    end,
+	#	  },
+	#	  strategies = {
+	#	    chat = {
+	#	      adapter = "ollama"
+	#	    },
+	#	    inline = {
+	#	      adapter = "ollama"
+	#	    },
+	#	    agent = {
+	#	      adapter = "anthropic"
+	#	    }
+	#	  }
+	#	})
+
+	  #vim.api.nvim_set_keymap("n", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+	  #vim.api.nvim_set_keymap("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+	  #vim.api.nvim_set_keymap("n", "<LocalLeader>a", "<cmd>CodeCompanionToggle<cr>", { noremap = true, silent = true })
+	  #vim.api.nvim_set_keymap("v", "<LocalLeader>a", "<cmd>CodeCompanionToggle<cr>", { noremap = true, silent = true })
+	  #vim.api.nvim_set_keymap("v", "ga", "<cmd>CodeCompanionAdd<cr>", { noremap = true, silent = true })
+
+	  #-- Expand 'cc' into 'CodeCompanion' in the command line
+	  #vim.cmd([[cab cc CodeCompanion]])
+	#'';
+	#}
     ];
   };
 

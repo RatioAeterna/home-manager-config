@@ -1,31 +1,36 @@
-" Inuyasha-inspired Vim color scheme
+" Inuyasha-inspired Vim color scheme (aesthetic version)
 
 " Background
-hi Normal ctermfg=15 ctermbg=NONE    " White text on transparent background
+hi Normal guifg=#eaeaea guibg=NONE    " Soft white text on transparent background
 
-" Constants and Variables
-hi Constant ctermfg=1 ctermbg=NONE    " Red
-hi Identifier ctermfg=4 ctermbg=NONE  " Blue
+" Constants and Variables (Inuyasha's red robe)
+hi Constant guifg=#d74f42 guibg=NONE  " Muted red
 
-" Strings and Characters
-hi String ctermfg=5 ctermbg=NONE      " Magenta
-hi Character ctermfg=5 ctermbg=NONE   " Magenta
+" Identifiers (Rivers and streams)
+hi Identifier guifg=#5e81ac guibg=NONE  " Cool blue
 
-" Keywords and Statements
-hi Statement ctermfg=3 ctermbg=NONE   " Yellow
-hi Keyword ctermfg=3 ctermbg=NONE     " Yellow
+" Strings and Characters (Magic, spiritual elements)
+hi String guifg=#b48ead guibg=NONE    " Soft purple / magenta
+hi Character guifg=#b48ead guibg=NONE " Soft purple / magenta
 
-" Comments
-hi Comment ctermfg=6 ctermbg=NONE     " Cyan
+" Keywords and Statements (Lush green for forests)
+hi Statement guifg=#a3be8c guibg=NONE " Earthy green
+hi Keyword guifg=#a3be8c guibg=NONE   " Earthy green
 
-" Line numbers, the mundane details
-hi LineNr ctermfg=1 ctermbg=NONE      " Red
+" Comments (Calm earthy brown)
+hi Comment guifg=#8f735b guibg=NONE   " Subtle, warm brown
+
+" Line numbers, the mundane details (Inuyasha's robe again)
+hi LineNr guifg=#d74f42 guibg=NONE    " Muted red
 
 " Cursor and matching pairs
-hi Cursor ctermfg=0 ctermbg=15        " Black on white
-hi MatchParen ctermfg=0 ctermbg=3     " Black on yellow
+hi Cursor guifg=#2e3440 guibg=#eaeaea " Dark on light for high contrast
+hi MatchParen guifg=#2e3440 guibg=#a3be8c  " Dark on green for paired elements
 
-" Search highlights
-hi Search ctermfg=0 ctermbg=3         " Black on yellow
+" Search highlights (Cool blue for search matches)
+hi Search guifg=#2e3440 guibg=#5e81ac " Dark on cool blue
 
-hi Pmenu ctermbg=135
+" Popup menu (Deep purple / magic theme for menus)
+hi Pmenu guibg=#4c566a                " Deep, desaturated purple
+
+

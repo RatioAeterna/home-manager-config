@@ -1,0 +1,1 @@
+/nix/store/90jb7fbzmyqi9f2g1nj57l1h0qy9457c-home-manager-files/.config/nvim/lua/cmp_config.lua

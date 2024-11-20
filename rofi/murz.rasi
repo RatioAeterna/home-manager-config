@@ -1,0 +1,74 @@
+/*
+ * ROFI color theme - Ancient Scroll Edition (Darker Base)
+ */
+
+configuration {
+  timeout {
+    delay: 10;
+    action: "kb-cancel";
+  }
+}
+
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+
+  bg: #d3b694;         /* Darker parchment brown */
+  bg-alt: #c1a378;      /* Warm tan for alternate background */
+  fg: #2d2d2d;         /* Darker text color for contrast */
+  fg-alt: #5a3d31;      /* Deep earthy brown for alt text */
+
+  background-color: @bg;
+  text-color: @fg-alt;
+}
+
+window {
+  border: 2px;
+  border-color: @fg-alt; /* Dark earthy border */
+  padding: 6px;
+  transparency: "real";
+}
+
+mainbox {
+  children: [inputbar, listview];
+}
+
+inputbar {
+  children: [entry];
+}
+
+entry {
+  padding: 10px;
+  background-color: @bg-alt;  /* Use alternate background for entry */
+  text-color: @fg;
+}
+
+listview {
+  lines: 10;
+  scrollbar: true;
+  background-color: @bg; /* Darker parchment background for the list view */
+}
+
+scrollbar {
+  background-color: @bg-alt; /* Use warm tan for scrollbar background */
+  handle-color: @fg-alt;     /* Use deep earthy color for scrollbar handle */
+  margin: 0 0 0 6px;
+}
+
+element {
+  children: [element-text];
+  background-color: @bg-alt; /* Use warm tan for individual elements */
+}
+
+element-text {
+  padding: 10px;
+  text-color: @fg; /* Dark text for contrast */
+}
+
+element-text selected {
+  background-color: @fg-alt; /* Deep earthy brown for selected elements */
+  text-color: @bg;           /* Lighter parchment text on selection */
+}
+

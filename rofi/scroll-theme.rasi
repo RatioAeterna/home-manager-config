@@ -1,0 +1,53 @@
+* {
+    background: #e5ccb1; /* Light parchment brown */
+    foreground: #2d2d2d; /* Dark text for contrast */
+    padding: 5px;
+}
+
+window {
+    border: 2px solid;
+    background-color: #e5ccb1; /* Parchment background */
+}
+
+listview {
+    background-color: #e5ccb1;
+}
+
+element {
+    background-color: #f0e0c8; /* Lighter scroll entry background */
+    padding: 2px 5px;
+    foreground: #2d2d2d;
+}
+
+/* Force the normal state of each element (apps in the list) */
+element.normal {
+    background-color: #f0e0c8;
+    foreground: #2d2d2d;
+}
+
+/* Selected element (highlighted) */
+element.selected {
+    background-color: #d2b48c;
+    foreground: #000000;
+}
+
+/* Entry box (this can sometimes override the element background) */
+entry {
+    background-color: #f0e0c8; /* Same lighter brown */
+    foreground: #2d2d2d;
+}
+
+textbox, inputbar, prompt {
+    background-color: #e5ccb1; /* Ensure text input areas are parchment brown */
+    foreground: #2d2d2d;
+}
+
+mainbox, sidebar {
+    background-color: #e5ccb1; /* Set background for main container and side panels */
+}
+
+message {
+    background-color: #e5ccb1; /* Message box background color */
+    foreground: #2d2d2d;
+}
+
